@@ -4,7 +4,9 @@ import { Dispatch, iRootState } from "..";
 export type TestQuestion = {
   type: string;
   question: string;
-  options: [string];
+  options: string[];
+  answer: number;
+  userAnswer?: number;
 };
 
 export type TestsState = {
@@ -24,7 +26,7 @@ export const test = {
   reducers: {
     addUserData(state: TestsState, payload: string) {
       return {
-        state,
+        ...state,
         username: payload,
       };
     },
@@ -36,9 +38,27 @@ export const test = {
     },
   },
   effects: (dispatch: Dispatch) => ({
-    async incrementAsync(payload: number) {
+    async getTests() {
+      dispatch.loader.showLoader();
       await new Promise(resolve => setTimeout(resolve, 1000));
-      dispatch.counter.increment(payload);
+
+      const tests: TestQuestion[] = [
+        {
+          type: "default",
+          question: "How are you?",
+          options: ["Im fine", "So damn bad"],
+          answer: 1,
+        },
+        {
+          type: "default",
+          question: "What the fuck?",
+          options: ["Fuck off", "Excuse me?"],
+          answer: 0,
+        },
+      ];
+
+      dispatch.test.setTests(tests);
+      dispatch.loader.hideLoader();
     },
     async incrementIfOdd(payload: number, rootState: iRootState) {
       const { counter } = rootState;

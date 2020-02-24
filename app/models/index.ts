@@ -2,15 +2,18 @@
 import { RematchStore, RematchDispatch, RematchRootState } from "@rematch/core";
 import { counter } from "./counter/counter.model";
 import { test } from "./test/test.model";
+import { loader } from "./loader/loader.model";
 
 export type RootModel = {
   counter: typeof counter;
   test: typeof test;
+  loader: typeof loader;
 };
 
 export const models: RootModel = {
   counter,
   test,
+  loader,
 };
 
 export type Store = RematchStore<RootModel>;
