@@ -13,6 +13,9 @@ export const TestProcess = () => {
     history.push(routes.TEST_FINNISH);
   };
   const isLoading = useSelector<iRootState, boolean>(state => state.loader);
+  const tests = useSelector<iRootState, TestQuestion[] | undefined>(
+    state => state.test.tests,
+  );
 
   useEffect(() => {
     dispatch.test.getTests();
@@ -31,6 +34,7 @@ export const TestProcess = () => {
           Finnish Test
         </button>
       </div>
+      <div>{JSON.stringify(tests)}</div>
     </>
   );
 };

@@ -5,6 +5,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'no-shadow': 'off',
+    "promise/always-return": "off",
   },
   settings: {
     'import/resolver': {

@@ -1,19 +1,10 @@
+import { remote } from "electron";
 /* eslint-disable import/no-cycle */
 import { Dispatch, iRootState } from "..";
+import { TestsState, TestQuestion } from "./types";
+import { DBType } from "../../db";
 
-export type TestQuestion = {
-  type: string;
-  question: string;
-  options: string[];
-  answer: number;
-  userAnswer?: number;
-};
-
-export type TestsState = {
-  username?: string;
-  tests?: TestQuestion[];
-  testStep: number;
-};
+const db: DBType = remote.getGlobal("database");
 
 const defaultState: TestsState = {
   username: undefined,
@@ -42,20 +33,7 @@ export const test = {
       dispatch.loader.showLoader();
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const tests: TestQuestion[] = [
-        {
-          type: "default",
-          question: "How are you?",
-          options: ["Im fine", "So damn bad"],
-          answer: 1,
-        },
-        {
-          type: "default",
-          question: "What the fuck?",
-          options: ["Fuck off", "Excuse me?"],
-          answer: 0,
-        },
-      ];
+      const tests: TestQuestion[] = await db.questions.find({});
 
       dispatch.test.setTests(tests);
       dispatch.loader.hideLoader();

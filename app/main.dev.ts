@@ -14,6 +14,35 @@ import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import MenuBuilder from "./menu";
 
+import { db } from "./db";
+
+global.database = db;
+
+db.questions.on("load", async (datastore: Datastore) => {
+  const res: TestQuestion[] = await datastore.find({});
+
+  if (res && res.length !== 0) {
+    return;
+  }
+
+  await datastore.insert([
+    {
+      type: "default",
+      question: "How are you?",
+      options: ["Im fine", "So damn bad"],
+      answer: 1,
+    },
+    {
+      type: "default",
+      question: "What the fuck?",
+      options: ["Fuck off", "Excuse me?"],
+      answer: 0,
+    },
+  ]);
+});
+
+db.questions.load();
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = "info";

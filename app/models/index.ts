@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { RematchStore, RematchDispatch, RematchRootState } from "@rematch/core";
 import { counter } from "./counter/counter.model";
-import { test } from "./test/test.model";
+import { test } from "./test";
 import { loader } from "./loader/loader.model";
 
 export type RootModel = {
